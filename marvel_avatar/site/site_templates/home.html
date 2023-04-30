@@ -1,0 +1,51 @@
+{% extends 'base.html' %} {% block home_active %}active{% endblock %} {% block
+content %}
+
+<div class="home-container">
+	<div class="home-input-container">
+		<input type="text" class="home-input" value="iron man" id="input-box" />
+		<button class="home-button" id="submit-button">Search</button>
+	</div>
+	<div class="home-list"></div>
+	<div class="home-display-container" id="show-container"></div>
+	<button class="btn btn-primary" id="add-character">Add to your profile</button>
+</div>
+
+<script>
+	const addButton = document.querySelector("#add-character");
+
+	addButton.addEventListener("click", async () => {
+		const characterName =
+			document.querySelector(".character-name").textContent;
+		const characterDescription = document.querySelector(
+			".character-description"
+		).textContent;
+		const comics = document.querySelector(
+			".comics"
+		).textContent;
+		const characterImage = document.querySelector(".character-image").src;
+
+		const response = await fetch("/api/add_character", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				name: characterName,
+				description: characterDescription,
+				comics: comics,
+				image: characterImage,
+			}),
+		});
+
+		const data = await response.json();
+		if (data.success) {
+			alert("Character added to your collection! Add another, or go to Profile to view your collection.");
+		} else {
+			alert("Failed to add character to your collection");
+		}
+	});
+</script>
+
+{% endblock %}
+<!-- End content block of the page -->

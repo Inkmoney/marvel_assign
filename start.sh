@@ -1,0 +1,1 @@
+gunicorn "marval_avatar:app"
